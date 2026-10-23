@@ -16,10 +16,10 @@ date_default_timezone_set('Africa/Nairobi');
 
 /* ============================ 1. CONFIG ============================ */
 
-const DB_HOST = 'localhost';
-const DB_NAME = 'newsalatdb';
-const DB_USER = 'root';
-const DB_PASS = '';
+const DB_HOST = 'sql201.cpanelfree.com';
+const DB_NAME = 'cpfr_43244101_newsalatdbs';
+const DB_USER = 'cpfr_43244101';
+const DB_PASS = 'ogYY5j73l7';
 
 const ALERT_GAP_MINUTES = 5;     // at most one alert round per this many minutes
 const FRESH_HOURS       = 3;     // only alert about stories newer than this
@@ -32,7 +32,7 @@ const VAPID_SUBJECT = 'mailto:viviennembithi@gmail.com';
 // To add a topic: add a line here AND in the TOPICS list in index.html.
 // Keywords are matched anywhere in title/summary, ignoring case. First topic that matches wins.
 const TOPICS = [
-    'finance'     => ['finance bill', 'finance act', 'mswada wa fedha', 'VAT', 'treasury', 'budget', 'bill', 'act', 'mswada', 'sheria'],
+    'finance'     => ['finance bill', 'finance act', 'mswada wa fedha', 'VAT', 'excise duty', 'withholding tax', 'surcharge', 'fiscal deficit', 'repeal', 'amendment'],
     'protest'     => ['protest', 'maandamano', 'demonstration', 'demonstrators', 'riot', 'march', 'picket', 'clashes'],
     'agriculture' => ['agriculture', 'farming', 'farmers', 'kilimo', 'wakulima', 'maize', 'milk', 'fertilizer', 'harvest', 'tea', 'coffee', 'crops', 'livestock'],
       'politics'    => ['politics', 'political', 'government', 'serikali', 'siasa', 'bunge', 'parliament', 'senate', 'national assembly', 'mp', 'cabinet', 'impeachment', 'opposition', 'president', 'governor', 'election', 'uchaguzi', 'iebc', 'ruto', 'raila', 'gachagua', 'kalonzo', 'sifuna'],

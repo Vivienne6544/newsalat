@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/fetch-news.php": {
+      "maxDuration": 30
+    }
+  },
+  "crons": [{
+    "path": "/api/fetch-news.php",
+    "schedule": "*/5 * * * *"
+  }]
+}

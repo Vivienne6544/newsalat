@@ -22,10 +22,9 @@ const ALERT_GAP_MINUTES = 5;     // at most one alert round per this many minute
 const FRESH_HOURS       = 3;     // only alert about stories newer than this
 const MAX_ARTICLES      = 50;    // how many the app shows at once
 
-define('VAPID_PUBLIC',  getenv('BEVEIsZ0QhmJtWTrjBbYJvFr4O8M9tytlKH7V3SjWbxkkygU8OLV7epeV-9Dh3ucWwzkE2aBmNo8_wX6GjXrQhc') ?: '');
-define('VAPID_PRIVATE', getenv('G37sCIUe06iVJkevmC0ZRfjQ2BYTjTOL_OU492xArio') ?: '');
-define('VAPID_SUBJECT', getenv('VAPID_SUBJECT') ?: 'mailto: <viviennembithi@gmail.com>');
-
+define('VAPID_PUBLIC',  getenv('VAPID_PUBLIC') ?: 'BEVEIsZ0QhmJtWTrjBbYJvFr4O8M9tytlKH7V3SjWbxkkygU8OLV7epeV-9Dh3ucWwzkE2aBmNo8_wX6GjXrQhc');
+define('VAPID_PRIVATE', getenv('VAPID_PRIVATE') ?: 'G37sCIUe06iVJkevmC0ZRfjQ2BYTjTOL_OU492xArio');
+define('VAPID_SUBJECT', getenv('VAPID_SUBJECT') ?: 'mailto:viviennembithi@gmail.com');
 // To add a topic: add a line here AND in the TOPICS list in index.html.
 // Keywords are matched anywhere in title/summary, ignoring case. First topic that matches wins.
 const TOPICS = [

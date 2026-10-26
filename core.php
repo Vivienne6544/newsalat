@@ -16,10 +16,7 @@ date_default_timezone_set('Africa/Nairobi');
 
 /* ============================ 1. CONFIG ============================ */
 
-const DB_HOST = 'sql201.cpanelfree.com';
-const DB_NAME = 'cpfr_43244101_newsalatdbs';
-const DB_USER = 'cpfr_43244101';
-const DB_PASS = 'ogYY5j73l7';
+
 
 const ALERT_GAP_MINUTES = 5;     // at most one alert round per this many minutes
 const FRESH_HOURS       = 3;     // only alert about stories newer than this

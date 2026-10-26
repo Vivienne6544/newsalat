@@ -7,7 +7,7 @@
  *   ?action=cron                 -> fetch, filter, save, send alerts
  */
 
-require_once __DIR__ . '/core.php';
+require_once __DIR__ . '/../core.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
@@ -42,13 +42,7 @@ try {
             removeSubscription($b['endpoint']);
             reply(['ok' => true]);
 
-             case 'cron':
-            $lock = sys_get_temp_dir() . '/newsalat_last_fetch';
-            if (file_exists($lock) && time() - filemtime($lock) < 300) {
-                reply(['skipped' => 'fetched less than 5 minutes ago']);
-            }
-            touch($lock);
-            reply(runCron());   // add a secret key check here when you deploy
+         
 
         default:
             reply(['error' => 'Unknown action'], 404);

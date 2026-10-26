@@ -25,9 +25,9 @@ const ALERT_GAP_MINUTES = 5;     // at most one alert round per this many minute
 const FRESH_HOURS       = 3;     // only alert about stories newer than this
 const MAX_ARTICLES      = 50;    // how many the app shows at once
 
-const VAPID_PUBLIC  = 'BMsbTYvOFBsPKK9k5xKz8dyJ2IDDUVFWI2z3S1BK1-fKsA_qZbLITw_CL2ON6AojvW5SV28WLcm7SbGYEaVU2lg';
-const VAPID_PRIVATE = '1IglVbtNk32-2tyiSENTdv0F4pWCTxskXyHHkpt0EhI';
-const VAPID_SUBJECT = 'mailto:viviennembithi@gmail.com';
+define('VAPID_PUBLIC',  getenv('VAPID_PUBLIC') ?: '');
+define('VAPID_PRIVATE', getenv('VAPID_PRIVATE') ?: '');
+define('VAPID_SUBJECT', getenv('VAPID_SUBJECT') ?: 'mailto:you@example.com');
 
 // To add a topic: add a line here AND in the TOPICS list in index.html.
 // Keywords are matched anywhere in title/summary, ignoring case. First topic that matches wins.
@@ -67,7 +67,11 @@ const YOUTUBE_CHANNELS = [
 function db() {
     static $pdo = null;
     if ($pdo === null) {
-        $pdo = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4', DB_USER, DB_PASS, [
+              $url = getenv('DATABASE_URL') ?: getenv('POSTGRES_URL');
+        if (!$url) throw new RuntimeException('DATABASE_URL is not set');
+        $o   = parse_url($url);
+        $dsn = 'pgsql:host=' . $o['host'] . ';port=' . ($o['port'] ?? 5432) . ';dbname=' . ltrim($o['path'], '/') . ';sslmode=require';
+        $pdo = new PDO($dsn, urldecode($o['user']), urldecode($o['pass']), [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]);
@@ -177,8 +181,8 @@ function matchTopic($text, $source = '') {
 // Returns how many were new.
 function saveNew($items) {
     $stmt = db()->prepare(
-        'INSERT IGNORE INTO articles (title, summary, link, source, topic, published_at)
-         VALUES (?, ?, ?, ?, ?, ?)'
+               'INSERT INTO articles (title, summary, link, source, topic, published_at)
+         VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT (link) DO NOTHING'
     );
     $new = 0;
     foreach ($items as $i) {
@@ -193,14 +197,14 @@ function saveNew($items) {
 /* ============================ 7. READ FOR THE APP ============================ */
 
 function getArticles($topic = '', $search = '') {
-    $sql = 'SELECT title, summary, link, source, topic, published_at FROM articles WHERE 1';
+       $sql = 'SELECT title, summary, link, source, topic, published_at FROM articles WHERE TRUE';
     $args = [];
     if ($topic !== '' && isset(TOPICS[$topic])) {
         $sql .= ' AND topic = ?';
         $args[] = $topic;
     }
     if ($search !== '') {
-        $sql .= ' AND (title LIKE ? OR summary LIKE ?)';
+              $sql .= ' AND (title ILIKE ? OR summary ILIKE ?)';
         $args[] = $args[] = '%' . $search . '%';
     }
     $sql .= ' ORDER BY published_at DESC LIMIT ' . (int)MAX_ARTICLES;
@@ -220,7 +224,7 @@ function saveSubscription($sub, $topics) {
         $topics = array_values(array_intersect((array)$topics, array_merge(['all'], array_keys(TOPICS))));
     $stmt = db()->prepare(
         'INSERT INTO subscriptions (endpoint, p256dh, auth, topics) VALUES (?, ?, ?, ?)
-         ON DUPLICATE KEY UPDATE p256dh = VALUES(p256dh), auth = VALUES(auth), topics = VALUES(topics)'
+              ON CONFLICT (endpoint) DO UPDATE SET p256dh = EXCLUDED.p256dh, auth = EXCLUDED.auth, topics = EXCLUDED.topics'
     );
     return $stmt->execute([$endpoint, $p256dh, $auth, implode(',', $topics)]);
 }

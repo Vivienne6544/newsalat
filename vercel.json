@@ -1,0 +1,5 @@
+{
+  "builds": [
+    { "src": "api/api.php", "use": "vercel-php@0.7.3" }
+  ]
+}

@@ -42,7 +42,8 @@ try {
             removeSubscription($b['endpoint']);
             reply(['ok' => true]);
 
-         
+         case 'cron':
+    reply(runCron());
 
         default:
             reply(['error' => 'Unknown action'], 404);

@@ -1,6 +1,0 @@
-http://localhost/newsalat/index.html
-
-const DB_HOST = 'localhost';
-const DB_NAME = 'newsalatdb';
-const DB_USER = 'root';
-const DB_PASS = '';

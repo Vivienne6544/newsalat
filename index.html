@@ -87,7 +87,7 @@ header{background:var(--green);color:#fff;position:sticky;top:0;z-index:10}
 <script>
 /* ---------- settings: change things here ---------- */
 const API = '/api/api.php';
-const VAPID_PUBLIC_KEY = 'BMsbTYvOFBsPKK9k5xKz8dyJ2IDDUVFWI2z3S1BK1-fKsA_qZbLITw_CL2ON6AojvW5SV28WLcm7SbGYEaVU2lg';
+const VAPID_PUBLIC_KEY = 'BEVEIsZ0QhmJtWTrjBbYJvFr4O8M9tytlKH7V3SjWbxkkygU8OLV7epeV-9Dh3ucWwzkE2aBmNo8_wX6GjXrQhc';
 const REFRESH_MS = 2 * 60 * 1000;
 const TOPICS = [                       // add a topic = add one line (also add it in core.php)
   {id: 'finance',     label: 'Finance Bill'},
@@ -234,9 +234,7 @@ $('topics').addEventListener('change', async () => {
 /* ---------- start ---------- */
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 drawChips(); drawTopics(); loadFeed();
-const refresh = () => fetch(`${API}?action=cron`).then(r => r.json()).then(d => { if (d.new > 0) loadFeed(); }).catch(() => {});
-refresh();
-setInterval(() => { refresh(); loadFeed(); }, REFRESH_MS);
+setInterval(loadFeed, REFRESH_MS);
 </script>
 </body>
 </html>

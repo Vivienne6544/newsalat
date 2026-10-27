@@ -1,7 +1,8 @@
 {
-  "functions": {
-    "api/*.php": {
-      "runtime": "vercel-php@0.7.3"
+  "crons": [
+    {
+      "path": "/api/fetch-news.php",
+      "schedule": "0 0 * * *"
     }
-  }
+  ]
 }

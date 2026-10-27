@@ -2,10 +2,10 @@
   "functions": {
     "api/cron.php": { "maxDuration": 30 }
   },
-  "crons": [
-    {
-      "path": "/api/cron",
-      "schedule": "*/15 * * * *"
-    }
-  ]
+ "crons": [
+  {
+    "path": "/api/cron",
+    "schedule": "0 12 * * *"
+  }
+]
 }

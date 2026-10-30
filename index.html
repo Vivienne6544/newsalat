@@ -234,7 +234,18 @@ $('topics').addEventListener('change', async () => {
 /* ---------- start ---------- */
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 drawChips(); drawTopics(); loadFeed();
-setInterval(loadFeed, REFRESH_MS);
+const FETCH_URL    = '/api/fetch-news.php';
+const FETCH_GAP_MS = 5 * 60 * 1000;   // each device asks at most once per 5 minutes
+
+function refresh() {
+  const last = Number(localStorage.getItem('newsalat_last_fetch') || 0);
+  if (Date.now() - last < FETCH_GAP_MS) return;
+  localStorage.setItem('newsalat_last_fetch', Date.now());
+  fetch(FETCH_URL).then(r => r.json()).then(d => { if (d.new > 0) loadFeed(); }).catch(() => {});
+}
+
+refresh();
+setInterval(() => { refresh(); loadFeed(); }, REFRESH_MS);
 </script>
 </body>
 </html>

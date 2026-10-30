@@ -1,6 +1,6 @@
 <?php
 // TEMPORARY: sends a test alert to every saved subscriber. Delete this file after testing.
-require_once __DIR__ . '/../core.php';
+require_once __DIR__ . '/core.php';
 header('Content-Type: application/json');
 
 try {
